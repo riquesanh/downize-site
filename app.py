@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, send_file, request
+from flask import Flask, render_template_string, send_file, request
 import qrcode
 import io
 
@@ -6,15 +6,17 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    with open('index.html', 'r', encoding='utf-8') as file:
+        html = file.read()
+    return render_template_string(html)
 
 @app.route('/download')
 def download_file():
-    return send_from_directory('static/produto', 'downize.exe', as_attachment=True)
+    return send_file('downize.exe', as_attachment=True)
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory('static/img', 'favicon.png', mimetype='image/png')
+    return send_file('favicon.png', mimetype='image/png')
 
 def gerar_qrcode_pix(valor='10.00', descricao='Apoio ao Downize'):
     pix_key = "8300bbc5-a1bf-4b85-b48a-0fed9f47bc09"
