@@ -1,0 +1,240 @@
+
+/* Garante que padding e border não causem overflow */
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+html {
+  scroll-padding-top: 140px; /* Compensa o header fixo */
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  padding-top: 120px;
+  overflow-x: hidden; /* Evita scroll horizontal */
+}
+
+header {
+  background-color: #1e90ff;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  flex-wrap: wrap;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+header .logo img {
+  height: 60px;
+  width: auto;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 100%;
+}
+
+nav a {
+  color: white;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  transform: scale(1.05);
+}
+
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(to right, #1e90ff, #00bfff);
+  color: white;
+  animation: fadeIn 1.5s ease-in;
+}
+
+.hero h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+}
+
+.download-btn {
+  padding: 15px 30px;
+  background-color: #fff;
+  color: #1e90ff;
+  font-weight: bold;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.3s;
+  display: inline-block;
+}
+
+.download-btn:hover {
+  background-color: #e6f0ff;
+  transform: translateY(-3px);
+}
+
+section {
+  padding: 60px 20px;
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
+}
+
+section[id] {
+  scroll-margin-top: 140px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+  resize: vertical;
+}
+
+.contact-form button {
+  padding: 12px;
+  background-color: #1e90ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.contact-form button:hover {
+  background-color: #1c86ee;
+}
+
+footer {
+  background-color: #1e90ff;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+
+  nav {
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  nav a {
+    margin: 10px;
+  }
+
+  .hero h1 {
+    font-size: 2em;
+  }
+
+  .hero p {
+    font-size: 1em;
+  }
+}
+
+.contrib-section {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  padding: 40px 20px;
+  margin-top: 40px;
+}
+
+.contrib-section h2 {
+  color: #1e90ff;
+  margin-bottom: 20px;
+}
+
+.contrib-section p {
+  font-size: 1.1em;
+  margin-bottom: 25px;
+}
+
+.pix-box {
+  background-color: #f0f8ff;
+  padding: 20px;
+  border: 1px dashed #1e90ff;
+  border-radius: 10px;
+  font-weight: bold;
+  word-break: break-word;
+  margin-bottom: 20px;
+}
+
+.pix-copy-box {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.pix-copy-box input {
+  flex: 1;
+  min-width: 200px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+}
+
+.pix-copy-box button {
+  background-color: #1e90ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.pix-copy-box button:hover {
+  background-color: #1c86ee;
+}
+
+.contrib-note {
+  font-size: 0.9em;
+  color: #555;
+}

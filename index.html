@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Downize</title>
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="icon" href="static/img/favicon.png" type="image/png">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <img src="static/img/logo.png" alt="Logo da aplicação Downize">
+    </div>
+    <nav>
+      <a href="#">Início</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contribuir">Contribuir</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Organize seus downloads com praticidade</h1>
+    <p>Downize é a ferramenta perfeita para manter seus arquivos sempre em ordem.</p>
+    <a href="/download" class="download-btn">Baixar Agora</a>
+  </section>
+
+  <section id="sobre">
+    <h2>Sobre o Downize</h2>
+    <p>O Downize combina simplicidade e eficiência para organizar automaticamente os arquivos baixados no seu computador, poupando seu tempo e mantendo tudo em ordem. Com uma interface intuitiva e leve, ele categoriza seus downloads de forma inteligente, garantindo que você nunca mais perca tempo procurando aquele arquivo perdido. Ideal para quem valoriza praticidade, produtividade e organização digital.</p>
+  </section>
+
+  <section id="contribuir" class="contrib-section">
+    <h2>Apoie o Projeto 💙</h2>
+    <p>Gostou do Downize? Ajude no desenvolvimento com uma contribuição via Pix.</p>
+
+    <div class="pix-box">
+      <p><strong>Chave Pix (Aleatória):</strong></p>
+      <div class="pix-copy-box">
+        <input type="text" id="pixKey" value="8300bbc5-a1bf-4b85-b48a-0fed9f47bc09" readonly>
+        <button onclick="copiarPix()">Copiar</button>
+      </div>
+
+      <div class="pix-qr-area">
+        <label for="pixValue"><strong>Valor (opcional):</strong></label>
+        <input type="number" id="pixValue" placeholder="Ex: 10.00" min="0" step="0.01">
+        <button onclick="gerarQRCodePix()">Gerar QR Code</button>
+        <canvas id="qrCanvas"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section id="contato">
+    <h2>Fale conosco</h2>
+    <form class="contact-form" onsubmit="event.preventDefault(); alert('Mensagem enviada com sucesso!');">
+      <input type="text" name="nome" placeholder="Seu nome" required>
+      <input type="email" name="email" placeholder="Seu e-mail" required>
+      <textarea name="mensagem" placeholder="Sua mensagem" required></textarea>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Downize. Todos os direitos reservados.</p>
+  </footer>
+
+  <!-- QR Code Lib -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+
+  <!-- Scripts -->
+  <script>
+    const copiarPix = () => {
+      const input = document.getElementById('pixKey');
+      navigator.clipboard.writeText(input.value).then(() => {
+        alert('Chave Pix copiada!');
+      });
+    };
+
+    const gerarQRCodePix = () => {
+      const chave = document.getElementById('pixKey').value;
+      const nome = "Downize";
+      const cidade = "BRASIL";
+      const valor = parseFloat(document.getElementById("pixValue").value || 0).toFixed(2);
+      const payload = gerarPayloadPix(chave, nome, cidade, valor);
+      const canvas = document.getElementById('qrCanvas');
+
+      QRCode.toCanvas(canvas, payload, { width: 250 }, function (error) {
+        if (error) console.error(error);
+      });
+    };
+
+    function gerarPayloadPix(chave, nome, cidade, valor) {
+      function format(id, value) {
+        const len = value.length.toString().padStart(2, '0');
+        return `${id}${len}${value}`;
+      }
+
+      const payloadFormat = "000201";
+      const merchantAccount = format("26", format("00", "BR.GOV.BCB.PIX") + format("01", chave));
+      const merchantCategoryCode = "52040000";
+      const currency = "5303986";
+      const amount = valor > 0 ? format("54", valor) : "";
+      const countryCode = "5802BR";
+      const merchantName = format("59", nome);
+      const merchantCity = format("60", cidade);
+      const txid = format("05", "***");
+      const additionalData = format("62", txid);
+
+      let fullPayload = payloadFormat + merchantAccount + merchantCategoryCode + currency + amount + countryCode + merchantName + merchantCity + additionalData;
+      fullPayload += format("63", calcularCRC16(fullPayload + "6304"));
+
+      return fullPayload;
+    }
+
+    function calcularCRC16(payload) {
+      let polinomio = 0x1021;
+      let resultado = 0xFFFF;
+
+      for (let i = 0; i < payload.length; i++) {
+        resultado ^= payload.charCodeAt(i) << 8;
+        for (let j = 0; j < 8; j++) {
+          if ((resultado <<= 1) & 0x10000) resultado ^= polinomio;
+          resultado &= 0xFFFF;
+        }
+      }
+
+      return resultado.toString(16).toUpperCase().padStart(4, '0');
+    }
+  </script>
+
+</body>
+</html>
